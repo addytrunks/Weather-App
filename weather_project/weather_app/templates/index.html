@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+<!--  -->
+{% block content %}
+<br>
+
+<div class="form-inline">
+    <form class="" method="post">
+        {% csrf_token %}
+        {{ forms.city }}
+        <button class="btn btn-md btn-primary">Add City</button>
+    </form>  
+</div>
+<br>
+<br>
+
+{% if message %}
+<div class="alert {{ message_class }}">
+  {{ message }}
+</div>
+{% endif %}
+<br>
+{% for city in weather_data %}
+    <div class="card mb-3 w-75">
+        <div class="row no-gutters">
+          <div class="col-md-2" style="border-radius: 4px;">
+            <img src="http://openweathermap.org/img/w/{{ city.icon }}.png" width="70" class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+            <a href="{% url 'delete_city' city.city  %}" class="mt-3" style="float: right; color: lightgray; font-size: larger;">
+              <i class="fa fa-times-circle" aria-hidden="true"></i>
+            </a>
+            <div class="card-body">
+              
+              <h4 class="card-title">{{ city.city|title }},{{ city.country }}</h5>
+              <h6 class="text-muted">{{ city.temperature }} F|{{ city.celcius }} C</h6>
+              <h6 class="card-text">{{ city.description|title }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endfor %}
+ 
+{% endblock %}
